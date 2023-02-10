@@ -1,1 +1,28 @@
+# ======= T ======= #
+# 贴吧
+IP-CIDR,180.76.76.200/32,BlockAds
 
+# ======= W ======= #
+# 微博 头像挂件
+HOST,new.vip.weibo.cn,BlockAds
+HOST,vip.storage.weibo.com,BlockAds
+
+# ======= Y ======= #
+# 云闪付 开屏广告
+HOST,ads.95516.com,BlockAds
+HOST,cm-10-138.getui.com,BlockAds
+HOST,sdk.open.talk.getui.net,BlockAds
+HOST,sdk-conf.getui.com,BlockAds
+HOST,switch.cup.com.cn,BlockAds
+HOST,tysdk.95516.com,BlockAds
+
+# ======= Z ======= #
+# 知乎
+HOST,appcloud.zhihu.com,BlockAds
+HOST,appcloud2.in.zhihu.com,BlockAds
+HOST,crash2.zhihu.com,BlockAds
+HOST,mqtt.zhihu.com,BlockAds
+HOST,sugar.zhihu.com,BlockAds
+IP-CIDR,118.89.204.198/32,BlockAds
+IP-CIDR,103.41.167.237/32,BlockAds
+IP6-CIDR,2402:4e00:1200:ed00:0:9089:6dac:96b6/128,BlockAds
