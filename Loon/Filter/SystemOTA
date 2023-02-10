@@ -1,1 +1,7 @@
 
+
+domain,mesu.apple.com,SystemOTA
+
+domain,gdmf.apple.com,SystemOTA
+
+domain,updates-http.cdn-apple.com,SystemOTA
