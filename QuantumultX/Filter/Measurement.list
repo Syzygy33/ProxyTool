@@ -1,4 +1,3 @@
-
-HOST-SUFFIX,pagead2.googleadservices.com,Measurement
-HOST-SUFFIX,googleads.g.doubleclick.net,Measurement
-HOST-SUFFIX,app-measurement.com,Measurement
+HOST-SUFFIX,pagead2.googleadservices.com,REJECT
+HOST-SUFFIX,googleads.g.doubleclick.net,REJECT
+HOST-SUFFIX,app-measurement.com,REJECT
