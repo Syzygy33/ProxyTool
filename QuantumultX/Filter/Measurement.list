@@ -1,4 +1,4 @@
 HOST-SUFFIX,pagead2.googleadservices.com,REJECT
 HOST-SUFFIX,googleads.g.doubleclick.net,REJECT
 HOST-SUFFIX,app-measurement.com,REJECT
-HOST-SUFFIX,ct-bjs-sgh-00001.oos-cn-180622.ctyunapi.cn
+HOST-SUFFIX,googleads.g.doubleclick-cn.net,REJECT
