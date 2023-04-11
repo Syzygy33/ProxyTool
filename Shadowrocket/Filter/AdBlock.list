@@ -2,3 +2,6 @@ DOMAIN-SUFFIX,pagead2.googleadservices.com
 DOMAIN-SUFFIX,googleads.g.doubleclick.net
 DOMAIN-SUFFIX,app-measurement.com
 DOMAIN-SUFFIX,googleads.g.doubleclick-cn.net
+DOMAIN,ulogs.umeng.com
+DOMAIN,ulogs.umengcloud.com
+DOMAIN,errlog.umeng.com
