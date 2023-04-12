@@ -5,3 +5,9 @@ DOMAIN-SUFFIX,googleads.g.doubleclick-cn.net
 DOMAIN,ulogs.umeng.com
 DOMAIN,ulogs.umengcloud.com
 DOMAIN,errlog.umeng.com
+DOMAIN-SUFFIX,api-access.pangolin-sdk-toutiao.
+DOMAIN-SUFFIX,sdk.e.qq.com
+DOMAIN-SUFFIX,log-api.pangolin-sdk-toutiao-b.com
+DOMAIN-SUFFIX,mi.gdt.qq.com
+DOMAIN,p.s.360.cn
+DOMAIN,toblog.ctobsnssdk.com
