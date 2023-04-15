@@ -1,6 +1,7 @@
 # ======= F ======= #
 # 飞猪 开屏广告
 HOST,amdc.m.taobao.com,BlockAds
+HOST,trade-acs.m.taobao.com,BlockAds
 
 # ======= T ======= #
 
