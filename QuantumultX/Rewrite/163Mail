@@ -1,0 +1,3 @@
+^https?:\/\/appconf\.mail\.163\.com\/mmad\/get\.do url reject
+^https?:\/\/client\.mail\.163.com\/apptrack\/confinfo\/(searchMultiAds.do|showAds.do) url reject
+hostname = client.mail.163.com,appconf.mail.163.com
