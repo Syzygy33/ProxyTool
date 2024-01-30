@@ -12,6 +12,7 @@
 ^https:\/\/router-app-api\.jdcloud\.com\/v\d\/board\/routerAppSplash reject-200
 ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=home_launchConfig reject-200
 ^https?:\/\/zjdr666\.com\/zjdr\.php\/v\d\/(version|top_notice\?|advert\?position=[^2]+) reject
+^https?:\/\/adx-cn\.anythinktech\.com\/bid reject
 
 [Script]
 
@@ -20,4 +21,4 @@ startup=type=http-response,pattern=^https?:\/\/api\.m\.jd\.com\/api\?functionId=
 jd_json=type=http-response,pattern=^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(hotWords|hotSearchTerms),requires-body=1,script-path=https://github.com/ddgksf2013/Scripts/raw/master/jd_json.js
 
 [MITM]
-hostname = %APPEND% jdread-api.jd.com,ms.jr.jd.com,bdsp-x.jd.com,dsp-x.jd.com,api.m.jd.com,router-app-api.jdcloud.com,zjdr666.com
+hostname = %APPEND% jdread-api.jd.com,ms.jr.jd.com,bdsp-x.jd.com,dsp-x.jd.com,api.m.jd.com,router-app-api.jdcloud.com,zjdr666.com,adx-cn.anythinktech.com
