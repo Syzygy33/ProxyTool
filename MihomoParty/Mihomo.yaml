@@ -13,7 +13,7 @@ proxy-groups:
   - {name: 直连模式, type: select, proxies: [DIRECT], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/Direct.png }
   - {name: 国内站点, type: select, proxies: [直连模式, 代理模式], icon: https://ghp.ci/https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png }
   - {name: 人工智能, type: select, proxies: [香港节点, 美国节点, 日本节点, 台湾节点, 狮城节点, 韩国节点], icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/OpenAI.png }
-  - {name: 开源社区, type: select, proxies: [香港节点, 美国节点, 日本节点, 台湾节点, 狮城节点, 韩国节点], icon: https://ghp.ci/https://raw.githubusercontent.com/Orz-3/mini/master/Color/OpenAI.png }
+  - {name: 开源社区, type: select, proxies: [香港节点, 美国节点, 日本节点, 台湾节点, 狮城节点, 韩国节点], icon: 🍟 }
   - {name: 谷歌应用, type: select, proxies: [直连模式, 代理模式], icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/softlyx/GoogleDrive.png }
   - {name: 微软服务, type: select, proxies: [直连模式, 代理模式], icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/Microsoft.png }
   - {name: 苹果服务, type: select, proxies: [直连模式, 香港节点, 美国节点, 日本节点], icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Apple_AppleStore.png }
