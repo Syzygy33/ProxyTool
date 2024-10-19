@@ -42,6 +42,8 @@ rule-providers:
 
 # 分流Policy 
 rules:
+  - RULE-SET,代理模式,代理模式
+  - RULE-SET,直连模式,直连模式
   - RULE-SET,广告拦截,广告拦截
   - RULE-SET,人工智能,人工智能
   - RULE-SET,苹果服务,苹果服务
