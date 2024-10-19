@@ -9,9 +9,9 @@
 
 proxy-groups:
 #分流分组
-  - {name: 代理模式, type: select, proxies: [香港节点, 美国节点, 日本节点, 台湾节点, 狮城节点, 韩国节点], icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/Proxy.png }
+  - {name: 代理模式, type: select, proxies: [香港节点, 美国节点, 日本节点, 台湾节点, 狮城节点, 韩国节点], icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Surge.png }
   - {name: 直连模式, type: select, proxies: [DIRECT], icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/Direct.png }
-  - {name: 国内站点, type: select, proxies: [直连模式, 代理模式], icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/Mainland.png }
+  - {name: 国内站点, type: select, proxies: [直连模式, 代理模式], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Static.png }
   - {name: 人工智能, type: select, proxies: [香港节点, 美国节点, 日本节点, 台湾节点, 狮城节点, 韩国节点], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/OpenAI.png }
   - {name: 开源社区, type: select, proxies: [香港节点, 美国节点, 日本节点, 台湾节点, 狮城节点, 韩国节点], icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/github_05.png }
   - {name: 微软服务, type: select, proxies: [直连模式, 代理模式], icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/Microsoft.png }
