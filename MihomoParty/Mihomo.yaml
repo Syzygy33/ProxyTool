@@ -27,7 +27,7 @@ proxy-groups:
   - {name: 台湾节点, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "台|湾|TW|(?i)Taiwan", icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/TW.png }
   - {name: 美国节点, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "美|US|(?i)States|American", icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/US.png }
   - {name: 狮城节点, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "新|坡|SG|(?i)Singapore", icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/SG.png }
-  - {name: 韩国节点, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "KR|Korea|KOR|韩国|韩|韓", icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/KR }
+  - {name: 韩国节点, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "KR|Korea|KOR|韩国|韩|韓", icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/KR.png }
 
 # 分流规则 
 rule-providers:
