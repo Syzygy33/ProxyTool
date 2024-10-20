@@ -12,7 +12,7 @@ proxy-groups:
   - {name: 代理模式, type: select, proxies: [香港节点, 美国节点, 日本节点, 台湾节点, 狮城节点, 韩国节点], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Catnet.png }
   - {name: 直连模式, type: select, proxies: [DIRECT], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Touhou.png }
   - {name: 国内站点, type: select, proxies: [直连模式, 代理模式], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Mimemi.png }
-  - {name: 人工智能, type: select, proxies: [香港节点, 美国节点, 日本节点, 台湾节点, 狮城节点, 韩国节点], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/lmm.png }
+  - {name: 人工智能, type: select, proxies: [香港节点, 美国节点, 日本节点, 台湾节点, 狮城节点, 韩国节点], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/STC.png }
   - {name: 开源社区, type: select, proxies: [香港节点, 美国节点, 日本节点, 台湾节点, 狮城节点, 韩国节点], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Godetia.png }
   - {name: 微软服务, type: select, proxies: [代理模式, 直连模式], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Pacifique.png }
   - {name: 谷歌应用, type: select, proxies: [代理模式, 直连模式], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Dukou.png }
