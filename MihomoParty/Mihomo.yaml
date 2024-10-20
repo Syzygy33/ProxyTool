@@ -17,7 +17,7 @@ proxy-groups:
   - {name: 微软服务, type: select, proxies: [直连模式, 代理模式], icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/Microsoft.png }
   - {name: 谷歌应用, type: select, proxies: [直连模式, 代理模式], icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/softlyx/GoogleDrive.png }
   - {name: 苹果服务, type: select, proxies: [直连模式, 香港节点, 美国节点, 日本节点], icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Apple_iCloud.png }
-  - {name: 漏网之鱼, type: select, proxies: [直连模式, 代理模式], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Final.png }
+  - {name: 漏网之鱼, type: select, proxies: [直连模式, 代理模式], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Flyint.png }
   #- {name: 广告拦截, type: select, proxies: [REJECT, DIRECT], icon: https://ghp.ci/https://raw.githubusercontent.com/Orz-3/mini/master/Color/Adblock.png }
   
   
