@@ -32,7 +32,7 @@ proxy-groups:
 # 分流规则 
 rule-providers:
   #AdBlock:     {behavior: domain,    interval: 86400, format: text, type: http, url: https://ghp.ci/https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules_domainset.txt ,                                           path: ./ruleset/anti-ad-clash.txt }
-  OpenAi:      {behavior: classical, interval: 86400, format: yaml, type: http, url: https://ghp.ci/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml ,                      path: ./ruleset/OpenAi.yaml       }
+  OpenAi:      {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/G4free/clash-ruleset/main/ruleset/ChatGPT.yaml ,                                                        path: ./ruleset/OpenAi.yaml       }
   Apple:       {behavior: classical, interval: 86400, format: yaml, type: http, url: https://ghp.ci/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple_Classical.yaml ,              path: ./ruleset/Apple.yaml        }
   Github:      {behavior: classical, interval: 86400, format: yaml, type: http, url: https://ghp.ci/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.yaml ,                      path: ./ruleset/Github.yaml       }
   Microsoft:   {behavior: classical, interval: 86400, format: yaml, type: http, url: https://ghp.ci/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml ,                path: ./ruleset/Microsoft.yaml    }
