@@ -90,24 +90,6 @@ function main(config) {
       tolerance: 50
     },
     {
-      name: "台湾节点",
-      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/flag/TW_02.png",
-      "include-all": true,
-      filter: "(?i)台|新北|彰化|TW|Taiwan",
-      type: "url-test",
-      interval: 300,
-      tolerance: 50
-    },
-    {
-      name: "狮城节点",
-      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/flag/SG_01.png",
-      "include-all": true,
-      filter: "(?i)新加坡|坡|狮城|SG|Singapore",
-      type: "url-test",
-      interval: 300,
-      tolerance: 50
-    },
-    {
       name: "美国节点",
       icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/flag/US.png",
       "include-all": true,
@@ -121,6 +103,24 @@ function main(config) {
       icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/flag/JP_01.png",
       "include-all": true,
       filter: "(?i)日本|川日|东京|大阪|泉日|埼玉|沪日|深日|JP|Japan",
+      type: "url-test",
+      interval: 300,
+      tolerance: 50
+    },
+    {
+      name: "台湾节点",
+      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/flag/TW_02.png",
+      "include-all": true,
+      filter: "(?i)台|新北|彰化|TW|Taiwan",
+      type: "url-test",
+      interval: 300,
+      tolerance: 50
+    },
+    {
+      name: "狮城节点",
+      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/flag/SG_01.png",
+      "include-all": true,
+      filter: "(?i)新加坡|坡|狮城|SG|Singapore",
       type: "url-test",
       interval: 300,
       tolerance: 50
