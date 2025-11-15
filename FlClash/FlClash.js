@@ -82,7 +82,7 @@ function main(config) {
     },
     {
       name: "香港节点",
-      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/HK02.png",
+      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/flag/HK_02.png",
       "include-all": true,
       filter: "(?i)港|HK|hk|Hong Kong|HongKong|hongkong",
       type: "url-test",
@@ -91,7 +91,7 @@ function main(config) {
     },
     {
       name: "台湾节点",
-      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/TW.png",
+      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/flag/TW_02.png",
       "include-all": true,
       filter: "(?i)台|新北|彰化|TW|Taiwan",
       type: "url-test",
@@ -100,7 +100,7 @@ function main(config) {
     },
     {
       name: "狮城节点",
-      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/SG.png",
+      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/flag/SG_01.png",
       "include-all": true,
       filter: "(?i)新加坡|坡|狮城|SG|Singapore",
       type: "url-test",
@@ -109,7 +109,7 @@ function main(config) {
     },
     {
       name: "美国节点",
-      icon: "icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/US.png",
+      icon: "icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/flag/US.png",
       "include-all": true,
       filter: "(?i)美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States",
       type: "url-test",
@@ -118,7 +118,7 @@ function main(config) {
     },
     {
       name: "日本节点",
-      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/JP.png",
+      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/flag/JP_01.png",
       "include-all": true,
       filter: "(?i)日本|川日|东京|大阪|泉日|埼玉|沪日|深日|JP|Japan",
       type: "url-test",
@@ -127,7 +127,7 @@ function main(config) {
     },
     {
       name: "韩国节点",
-      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/KR.png",
+      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/flag/KR_01.png",
       "include-all": true,
       filter: "(?i)KR|Korea|KOR|首尔|韩|韓",
       type: "url-test",
