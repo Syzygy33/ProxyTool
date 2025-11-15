@@ -1,159 +1,88 @@
 function main(config) {
   config["proxy-groups"] = [
     {
-      name: "节点选择",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png",
+      name: "代理模式",
+      icon: "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Catnet.png",
       type: "select",
       proxies: [
-        "自动选择", "香港节点", "台湾节点", "狮城节点", "美国节点", "日本节点", "韩国节点", "其他节点", "手动切换", "DIRECT"
+        "香港节点", "美国节点", "日本节点", "台湾节点", "狮城节点", "韩国节点"
       ]
     },
     {
-      name: "自动选择",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png",
-      type: "url-test",
-      "include-all": true,
-      "exclude-filter": "(?i)香港|Hong Kong|HK|hongkong",
-      interval: 300,
-      tolerance: 50
-    },
-    {
-      name: "手动切换",
-      icon: "https://testingcf.jsdelivr.net/gh/shindgewongxj/WHATSINStash@master/icon/select.png",
-      "include-all": true,
-      type: "select"
-    },
-    {
-      name: "AI节点",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Bot.png",
+      name: "直连模式",
+      icon: "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Rookie.png",
       type: "select",
       proxies: [
-        "美国节点", "节点选择", "自动选择", "狮城节点", "香港节点", "台湾节点", "日本节点", "韩国节点", "其他节点", "手动切换", "DIRECT"
+        "DIRECT"
       ]
     },
     {
-      name: "电报消息",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram.png",
+      name: "国内站点",
+      icon: "https://raw.githubusercontent.com/Orz-3/mini/master/Color/StreamingCN.png",
       type: "select",
       proxies: [
-        "美国节点", "节点选择", "自动选择", "狮城节点", "香港节点", "台湾节点", "日本节点", "韩国节点", "其他节点", "手动切换", "DIRECT"
+        "直连模式", "代理模式"
       ]
     },
     {
-      name: "油管视频",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png",
+      name: "人工智能",
+      icon: "https://raw.githubusercontent.com/Orz-3/mini/master/Color/STC.png",
       type: "select",
       proxies: [
-        "节点选择", "自动选择", "狮城节点", "香港节点", "台湾节点", "日本节点", "美国节点", "韩国节点", "其他节点", "手动切换", "DIRECT"
+        "香港节点", "美国节点", "日本节点", "台湾节点", "狮城节点", "韩国节点"
       ]
     },
     {
-      name: "奈飞视频",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Netflix.png",
+      name: "开源社区",
+      icon: "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Godetia.png",
       type: "select",
       proxies: [
-        "节点选择", "自动选择", "狮城节点", "香港节点", "台湾节点", "日本节点", "美国节点", "韩国节点", "其他节点", "手动切换", "DIRECT"
+        "香港节点", "美国节点", "日本节点", "台湾节点", "狮城节点", "韩国节点"
       ]
     },
     {
-      name: "国内媒体",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/DomesticMedia.png",
+      name: "谷歌应用",
+      icon: "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Dukou.png",
       type: "select",
       proxies: [
-        "DIRECT", "香港节点", "台湾节点", "狮城节点", "日本节点", "美国节点", "韩国节点", "其他节点", "手动切换"
-      ]
-    },
-    {
-      name: "国外媒体",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ForeignMedia.png",
-      type: "select",
-      proxies: [
-        "节点选择", "自动选择", "香港节点", "台湾节点", "狮城节点", "日本节点", "美国节点", "韩国节点", "其他节点", "手动切换", "DIRECT"
-      ]
-    },
-    {
-      name: "谷歌FCM",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png",
-      type: "select",
-      proxies: [
-        "DIRECT", "节点选择", "美国节点", "香港节点", "台湾节点", "狮城节点", "日本节点", "韩国节点", "其他节点", "手动切换"
-      ]
-    },
-    {
-      name: "微软Bing",
-      icon: "https://testingcf.jsdelivr.net/gh/shindgewongxj/WHATSINStash@master/icon/bing.png",
-      type: "select",
-      proxies: [
-        "DIRECT", "节点选择", "美国节点", "香港节点", "台湾节点", "狮城节点", "日本节点", "韩国节点", "其他节点", "手动切换"
-      ]
-    },
-    {
-      name: "微软云盘",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/OneDrive.png",
-      type: "select",
-      proxies: [
-        "DIRECT", "节点选择", "美国节点", "香港节点", "台湾节点", "狮城节点", "日本节点", "韩国节点", "其他节点", "手动切换"
+        "代理模式", "直连模式"
       ]
     },
     {
       name: "微软服务",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Microsoft.png",
+      icon: "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Pacifique.png",
       type: "select",
       proxies: [
-        "节点选择", "DIRECT", "美国节点", "香港节点", "台湾节点", "狮城节点", "日本节点", "韩国节点", "其他节点", "手动切换"
+        "代理模式", "直连模式"
       ]
     },
     {
       name: "苹果服务",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Apple.png",
+      icon: "icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/GLaDOS.png",
       type: "select",
       proxies: [
-        "DIRECT", "节点选择", "美国节点", "香港节点", "台湾节点", "狮城节点", "日本节点", "韩国节点", "其他节点", "手动切换"
-      ]
-    },
-    {
-      name: "游戏平台",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Game.png",
-      type: "select",
-      proxies: [
-        "DIRECT", "节点选择", "美国节点", "香港节点", "台湾节点", "狮城节点", "日本节点", "韩国节点", "其他节点", "手动切换"
-      ]
-    },
-    {
-      name: "全球直连",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Direct.png",
-      type: "select",
-      proxies: [
-        "DIRECT", "节点选择", "自动选择"
-      ]
-    },
-    {
-      name: "广告拦截",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/AdBlack.png",
-      type: "select",
-      proxies: [
-        "REJECT", "DIRECT"
-      ]
-    },
-    {
-      name: "应用净化",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hijacking.png",
-      type: "select",
-      proxies: [
-        "REJECT", "DIRECT"
+        "代理模式", "直连模式"
       ]
     },
     {
       name: "漏网之鱼",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final.png",
+      icon: "icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Bywave.png",
       type: "select",
       proxies: [
-        "节点选择", "自动选择", "DIRECT", "香港节点", "台湾节点", "狮城节点", "日本节点", "美国节点", "韩国节点", "其他节点", "手动切换"
+        "代理模式", "直连模式"
+      ]
+    },
+    {
+      name: "广告拦截",
+      icon: "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Boom. png",
+      type: "select",
+      proxies: [
+        "REJECT", "DIRECT"
       ]
     },
     {
       name: "香港节点",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hong_Kong.png",
+      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/HK02.png",
       "include-all": true,
       filter: "(?i)港|HK|hk|Hong Kong|HongKong|hongkong",
       type: "url-test",
@@ -162,7 +91,7 @@ function main(config) {
     },
     {
       name: "台湾节点",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Taiwan.png",
+      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/TW.png",
       "include-all": true,
       filter: "(?i)台|新北|彰化|TW|Taiwan",
       type: "url-test",
@@ -171,7 +100,7 @@ function main(config) {
     },
     {
       name: "狮城节点",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Singapore.png",
+      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/SG.png",
       "include-all": true,
       filter: "(?i)新加坡|坡|狮城|SG|Singapore",
       type: "url-test",
@@ -180,7 +109,7 @@ function main(config) {
     },
     {
       name: "美国节点",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_States.png",
+      icon: "icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/US.png",
       "include-all": true,
       filter: "(?i)美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States",
       type: "url-test",
@@ -189,7 +118,7 @@ function main(config) {
     },
     {
       name: "日本节点",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Japan.png",
+      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/JP.png",
       "include-all": true,
       filter: "(?i)日本|川日|东京|大阪|泉日|埼玉|沪日|深日|JP|Japan",
       type: "url-test",
@@ -198,107 +127,17 @@ function main(config) {
     },
     {
       name: "韩国节点",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Korea.png",
+      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/KR.png",
       "include-all": true,
       filter: "(?i)KR|Korea|KOR|首尔|韩|韓",
       type: "url-test",
       interval: 300,
       tolerance: 50
     },
-    {
-      name: "其他节点",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png",
-      "include-all": true,
-      "exclude-filter": "(?i)港|HK|hk|Hong Kong|HongKong|hongkong|台|新北|彰化|TW|Taiwan|新加坡|坡|狮城|SG|Singapore|美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States|日本|川日|东京|大阪|泉日|埼玉|沪日|深日|JP|Japan|KR|Korea|KOR|首尔|韩|韓",
-      type: "url-test",
-      interval: 300,
-      tolerance: 50
-    },
-    {
-      name: "GLOBAL",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png",
-      "include-all": true,
-      type: "select",
-      proxies: [
-        "节点选择", "自动选择", "手动切换", "AI节点", "电报消息", "油管视频", "奈飞视频", "国内媒体", "国外媒体", "谷歌FCM", "微软Bing", "微软云盘", "微软服务", "苹果服务", "游戏平台", "全球直连", "广告拦截", "应用净化", "漏网之鱼", "香港节点", "台湾节点", "狮城节点", "美国节点", "日本节点", "韩国节点", "其他节点"
-      ]
-    }
   ];
   config["rule-providers"] = {
-    LocalAreaNetwork: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/LocalAreaNetwork.list",
-      path: "./ruleset/LocalAreaNetwork.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    UnBan: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/UnBan.list",
-      path: "./ruleset/UnBan.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    BanAD: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/BanAD.list",
-      path: "./ruleset/BanAD.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    BanProgramAD: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/BanProgramAD.list",
-      path: "./ruleset/BanProgramAD.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    GoogleFCM: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/GoogleFCM.list",
-      path: "./ruleset/GoogleFCM.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    GoogleCN: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/GoogleCN.list",
-      path: "./ruleset/GoogleCN.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    SteamCN: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/SteamCN.list",
-      path: "./ruleset/SteamCN.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    Bing: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Bing.list",
-      path: "./ruleset/Bing.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    OneDrive: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/OneDrive.list",
-      path: "./ruleset/OneDrive.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
     Microsoft: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Microsoft.list",
+      url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.list",
       path: "./ruleset/Microsoft.list",
       behavior: "classical",
       interval: 86400,
@@ -306,178 +145,54 @@ function main(config) {
       type: "http"
     },
     Apple: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Apple.list",
+      url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple.list",
       path: "./ruleset/Apple.list",
       behavior: "classical",
       interval: 86400,
       format: "text",
       type: "http"
     },
-    Telegram: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Telegram.list",
-      path: "./ruleset/Telegram.list",
+    GitHub: {
+      url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.list",
+      path: "./ruleset/GitHub.list",
       behavior: "classical",
       interval: 86400,
       format: "text",
       type: "http"
     },
-    "AI平台-国外": {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/AI.list",
-      path: "./ruleset/AI.list",
+    Google: {
+      url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.list",
+      path: "./ruleset/Google.list",
       behavior: "classical",
       interval: 86400,
       format: "text",
       type: "http"
     },
-    NetEaseMusic: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/NetEaseMusic.list",
-      path: "./ruleset/NetEaseMusic.list",
+    OpenAI: {
+      url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.list",
+      path: "./ruleset/OpenAI.list",
       behavior: "classical",
       interval: 86400,
       format: "text",
       type: "http"
     },
-    Epic: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/Epic.list",
-      path: "./ruleset/Epic.list",
+    AdvertisingLite: {
+      url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/AdvertisingLite/AdvertisingLite.list",
+      path: "./ruleset/AdvertisingLite.list",
       behavior: "classical",
       interval: 86400,
       format: "text",
       type: "http"
     },
-    Origin: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/Origin.list",
-      path: "./ruleset/Origin.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    Sony: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/Sony.list",
-      path: "./ruleset/Sony.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    Steam: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/Steam.list",
-      path: "./ruleset/Steam.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    Nintendo: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/Nintendo.list",
-      path: "./ruleset/Nintendo.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    YouTube: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/YouTube.list",
-      path: "./ruleset/YouTube.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    Netflix: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/Netflix.list",
-      path: "./ruleset/Netflix.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    Bahamut: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/Bahamut.list",
-      path: "./ruleset/Bahamut.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    ChinaMedia: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ChinaMedia.list",
-      path: "./ruleset/ChinaMedia.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    ProxyMedia: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ProxyMedia.list",
-      path: "./ruleset/ProxyMedia.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    ProxyGFWlist: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ProxyGFWlist.list",
-      path: "./ruleset/ProxyGFWlist.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    ChinaDomain: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ChinaDomain.list",
-      path: "./ruleset/ChinaDomain.list",
-      behavior: "domain",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    ChinaCompanyIp: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ChinaCompanyIp.list",
-      path: "./ruleset/ChinaCompanyIp.list",
-      behavior: "ipcidr",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    },
-    Download: {
-      url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Download.list",
-      path: "./ruleset/Download.list",
-      behavior: "classical",
-      interval: 86400,
-      format: "text",
-      type: "http"
-    }
   };
   config["rules"] = [
-    "RULE-SET,LocalAreaNetwork,全球直连",
-    "RULE-SET,UnBan,全球直连",
-    "RULE-SET,BanAD,广告拦截",
-    "RULE-SET,BanProgramAD,应用净化",
-    "RULE-SET,GoogleFCM,谷歌FCM",
-    "RULE-SET,GoogleCN,全球直连",
-    "RULE-SET,SteamCN,全球直连",
-    "RULE-SET,Bing,微软Bing",
-    "RULE-SET,OneDrive,微软云盘",
-    "RULE-SET,Microsoft,微软服务",
+    "RULE-SET, Microsoft,微软服务",
     "RULE-SET,Apple,苹果服务",
-    "RULE-SET,Telegram,电报消息",
-    "RULE-SET,AI平台-国外,AI节点", 
-    "RULE-SET,Epic,游戏平台",
-    "RULE-SET,Origin,游戏平台",
-    "RULE-SET,Sony,游戏平台",
-    "RULE-SET,Steam,游戏平台",
-    "RULE-SET,Nintendo,游戏平台",
-    "RULE-SET,YouTube,油管视频",
-    "RULE-SET,Netflix,奈飞视频",
-    "RULE-SET,ChinaMedia,国内媒体",
-    "RULE-SET,ProxyMedia,国外媒体",
-    "RULE-SET,ProxyGFWlist,节点选择",
-    "RULE-SET,ChinaDomain,全球直连",
-    "RULE-SET,ChinaCompanyIp,全球直连",
-    "RULE-SET,Download,全球直连",
-    "GEOIP,CN,全球直连",
+    "RULE-SET,GitHub,开源社区",
+    "RULE-SET,Google,谷歌应用",
+    "RULE-SET,OpenAI,人工智能",
+    "RULE-SET,AdvertisingLite,广告拦截",
+    "GEOIP,CN,国内站点",
     "MATCH,漏网之鱼"
   ];
   return config;
