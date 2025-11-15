@@ -74,7 +74,7 @@ function main(config) {
     },
     {
       name: "广告拦截",
-      icon: "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Boom. png",
+      icon: "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Boom.png",
       type: "select",
       proxies: [
         "REJECT", "DIRECT"
