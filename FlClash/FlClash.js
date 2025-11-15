@@ -58,7 +58,7 @@ function main(config) {
     },
     {
       name: "苹果服务",
-      icon: "icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/GLaDOS.png",
+      icon: "https://raw.githubusercontent.com/Orz-3/mini/master/Color/GLaDOS.png",
       type: "select",
       proxies: [
         "代理模式", "直连模式"
@@ -66,7 +66,7 @@ function main(config) {
     },
     {
       name: "漏网之鱼",
-      icon: "icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Bywave.png",
+      icon: "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Bywave.png",
       type: "select",
       proxies: [
         "代理模式", "直连模式"
