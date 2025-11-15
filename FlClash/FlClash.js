@@ -74,7 +74,7 @@ function main(config) {
     },
     {
       name: "广告拦截",
-      icon: "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Boom.png",
+      icon: "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Shandian.png",
       type: "select",
       proxies: [
         "REJECT", "DIRECT"
@@ -109,7 +109,7 @@ function main(config) {
     },
     {
       name: "美国节点",
-      icon: "icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/flag/US.png",
+      icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/flag/US.png",
       "include-all": true,
       filter: "(?i)美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States",
       type: "url-test",
