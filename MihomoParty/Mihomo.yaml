@@ -9,25 +9,25 @@
 
 proxy-groups:
 #分流分组
-  - {name: 代理模式, type: select, proxies: [香港节点, 美国节点, 日本节点, 台湾节点, 狮城节点, 韩国节点], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Catnet.png }
-  - {name: 直连模式, type: select, proxies: [DIRECT], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Rookie.png }
-  - {name: 国内站点, type: select, proxies: [直连模式, 代理模式], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/StreamingCN.png }
-  - {name: 人工智能, type: select, proxies: [香港节点, 美国节点, 日本节点, 台湾节点, 狮城节点, 韩国节点], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/STC.png }
-  - {name: 开源社区, type: select, proxies: [香港节点, 美国节点, 日本节点, 台湾节点, 狮城节点, 韩国节点], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Godetia.png }
-  - {name: 微软服务, type: select, proxies: [代理模式, 直连模式], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Pacifique.png }
-  - {name: 谷歌应用, type: select, proxies: [代理模式, 直连模式], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Dukou.png }
-  - {name: 苹果服务, type: select, proxies: [直连模式, 香港节点, 美国节点, 日本节点], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/GLaDOS.png }
-  - {name: 漏网之鱼, type: select, proxies: [代理模式, 直连模式], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Bywave.png }
+  - {name: 代理模式, type: select, proxies: [香港节点, 美国节点, 日本节点, 台湾节点, 狮城节点, 韩国节点], icon: https://raw.githubusercontent.com/Syzygy33/Icon/main/Catnet.png }
+  - {name: 直连模式, type: select, proxies: [DIRECT], icon: https://raw.githubusercontent.com/Syzygy33/Icon/main/Rookie.png }
+  - {name: 国内站点, type: select, proxies: [直连模式, 代理模式], icon: https://raw.githubusercontent.com/Syzygy33/Icon/main/StreamingCN.png }
+  - {name: 人工智能, type: select, proxies: [香港节点, 美国节点, 日本节点, 台湾节点, 狮城节点, 韩国节点], icon: https://raw.githubusercontent.com/Syzygy33/Icon/main/STC.png }
+  - {name: 开源社区, type: select, proxies: [香港节点, 美国节点, 日本节点, 台湾节点, 狮城节点, 韩国节点], icon: https://raw.githubusercontent.com/Syzygy33/Icon/main/Godetia.png }
+  - {name: 微软服务, type: select, proxies: [代理模式, 直连模式], icon: https://raw.githubusercontent.com/Syzygy33/Icon/main/Pacifique.png }
+  - {name: 谷歌应用, type: select, proxies: [代理模式, 直连模式], icon: https://raw.githubusercontent.com/Syzygy33/Icon/main/Dukou.png }
+  - {name: 苹果服务, type: select, proxies: [直连模式, 香港节点, 美国节点, 日本节点], icon: https://raw.githubusercontent.com/Syzygy33/Icon/main/GLaDOS.png }
+  - {name: 漏网之鱼, type: select, proxies: [代理模式, 直连模式], icon: https://raw.githubusercontent.com/Syzygy33/Icon/main/Bywave.png }
   #- {name: 广告拦截, type: select, proxies: [REJECT, DIRECT], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Boom. png }
   
   
 #节点分组
-  - {name: 香港节点, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "港|HK|(?i)Hong", icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/HK02.png }             
-  - {name: 日本节点, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "日|东京|JP|(?i)Japan", icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/JP.png }
-  - {name: 台湾节点, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "台|湾|TW|(?i)Taiwan", icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/TW.png }
-  - {name: 美国节点, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "美|US|(?i)States|American", icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/US.png }
-  - {name: 狮城节点, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "新|坡|SG|(?i)Singapore", icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/SG.png }
-  - {name: 韩国节点, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "KR|Korea|KOR|韩国|韩|韓", icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/erdongchanyo/KR.png }
+  - {name: 香港节点, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "港|HK|(?i)Hong", icon: https://raw.githubusercontent.com/Syzygy33/Icon/main/HK.png }             
+  - {name: 日本节点, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "日|东京|JP|(?i)Japan", icon: https://raw.githubusercontent.com/Syzygy33/Icon/main/JP.png }
+  - {name: 台湾节点, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "台|湾|TW|(?i)Taiwan", icon: https://raw.githubusercontent.com/Syzygy33/Icon/main/TW.png }
+  - {name: 美国节点, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "美|US|(?i)States|American", icon: https://raw.githubusercontent.com/Syzygy33/Icon/main/US.png }
+  - {name: 狮城节点, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "新|坡|SG|(?i)Singapore", icon: https://raw.githubusercontent.com/Syzygy33/Icon/main/SG.png }
+  - {name: 韩国节点, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "KR|Korea|KOR|韩国|韩|韓", icon: https://raw.githubusercontent.com/Syzygy33/Icon/main/KR.png }
 
 # 分流规则 
 rule-providers:
