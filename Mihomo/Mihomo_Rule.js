@@ -1,4 +1,4 @@
-// Clash_rule.js V5.10
+// Clash_rule.js V5.11
 // 需较新的 mihomo 内核；首次启动联网下载规则集与 geo 数据，在日志确认全部下载成功。
 // V5.6：代码整体精简，逻辑与 V5.5 完全一致；
 //       直连相关分流由 RULE-SET 改为内置 GEOSITE/GEOIP：private / cn 四项不再下载规则集，
@@ -18,6 +18,11 @@
 // V5.10：国内分流去掉 GEOSITE,cn，改为单条 GEOIP,cn →「国内站点」组（原 GEOIP,cn 直连的写法取消）。
 //       纯 IP 判断生效的前提：dns.fake-ip-filter 的 geosite:cn 让国内域名拿到真实 IP（该行已标注为关键项，勿删）。
 //       副作用：解析到境外 IP 的国内站点不再被兜住，会落到 MATCH→漏网之鱼（默认代理模式）。
+// V5.11：补回国内域名兜底——新增 cn-domain 规则集（geosite/cn，520KB），
+//       规则为「GEOIP,cn → 国内站点」在前、「RULE-SET,cn-domain → 国内站点」紧随其后兜底：
+//       IP 判优先，判不到的国内站点按域名捞回，不再掉进 MATCH 走代理。
+//       DNS 侧的 fake-ip-filter 与 nameserver-policy 同步由 geosite:cn 改为 rule-set:cn-domain，
+//       与分流共用同一份数据（口径一致，且不再依赖内置 geosite:cn 条目）。
 
 // ── 可调参数（集中维护） ──
 const DEFAULT_IP_VERSION = "dual"; // dual(并发择优) / ipv6-prefer / ipv4-prefer
@@ -423,9 +428,10 @@ function main(params) {
                 "+.stun.*.*",
                 "+.stun.*.*.*",
                 "+.stun.*.*.*.*",
-                // 关键项：国内域名返回真实 IP，规则里的 GEOIP,cn 才有 IP 可匹配（分流已改为纯 IP 判断）。
-                // 删掉这两行，国内站点会全部拿到 fake-ip 假地址，GEOIP,cn 永不命中，流量直落 MATCH 走代理
-                "geosite:cn",
+                // 关键项：国内域名返回真实 IP，规则里的 GEOIP,cn 才有 IP 可匹配（分流以 IP 判断优先）。
+                // 用 rule-set:cn-domain 而非 geosite:cn：与下面的 RULE-SET,cn-domain 兜底同源，口径一致。
+                // 删掉则国内站点全拿到 fake-ip 假地址，GEOIP,cn 永不命中，只能靠后面的域名兜底
+                "rule-set:cn-domain",
                 "geosite:private",
                 "rule-set:fakeip-filter",
                 ...subFilter
@@ -450,12 +456,14 @@ function main(params) {
         "nameserver-policy": Object.assign({}, subPolicy, {
             "geosite:private": ["system://"],
             "rule-set:ads-domain": ["rcode://name_error"],
-            "geosite:cn": [...CN_DNS_DOH]
+            // 与 fake-ip-filter、RULE-SET,cn-domain 同源：国内域名统一走国内 DoH 拿真实 IP
+            "rule-set:cn-domain": [...CN_DNS_DOH]
         })
     };
 
     // 远程规则集：MetaCubeX 官方拆分库，全 mrs。
-    // 直连相关（private / cn）已改用内置 GEOSITE/GEOIP，此处不再建对应 provider
+    // cn 的域名清单重新改为下载（V5.10 起的纯 GEOIP 判断漏网站点太多，需域名兜底）；
+    // private 仍用内置 GEOSITE/GEOIP，不建对应 provider
     const RS_BASE = "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo";
 
     const mkProvider = (behavior, dir, name) => ({
@@ -472,6 +480,10 @@ function main(params) {
 
     // 清空重建；必要的旧依赖由下方 carriedRuleProviders 搬运
     params["rule-providers"] = {
+        // 国内域名清单（geosite/cn，520KB）：GEOIP 判不到的国内站点（海外 CDN / 解析到境外 IP / 拿的是 fake-ip）
+        // 由它兜底捞回「国内站点」。同时在 DNS 侧替代 geosite:cn 用（fake-ip-filter 与 nameserver-policy），
+        // 让「哪些域名该拿真实 IP」与「哪些域名算国内」用同一份数据，避免两侧口径打架
+        "cn-domain": domain("cn"),
         "ads-domain": domain("category-ads-all"),
         "telegram-domain": domain("telegram"),
         "telegram-ip": ip("telegram"),
@@ -656,7 +668,7 @@ function main(params) {
         proxies: ["DIRECT"]
     });
 
-    // 国内站点：配合 GEOIP,cn 使用；列表首项即默认值，故默认「直连模式」，需要时才手动切「代理模式」
+    // 国内站点：配合 GEOIP,cn + RULE-SET,cn-domain 使用；列表首项即默认值，故默认「直连模式」，需要时才手动切「代理模式」
     groups.push({
         name: "国内站点",
         type: "select",
@@ -731,9 +743,9 @@ function main(params) {
     //   0. 基础设施（必须最先）：私网、系统对时、可选 QUIC 阻断
     //   1. 广告拦截（必须先于国内地区：国内广告域名同时收录在 ads 与 cn 两个分类里，
     //      排在前面才能拦住；放到 cn 之后国内广告就会被当作普通国内站点放行）
-    //   2. 国内地区（GEOIP,cn → 国内站点）—— 命中量最大，排在最前可跳过下面 6 条规则集。
-    //      纯 IP 判断：国内域名靠 fake-ip-filter 拿到真实 IP 后命中；
-    //      解析到境外 IP 的国内站点（海外 CDN / 未收录域名）不再被兜住，会落到 MATCH
+    //   2. 国内地区（GEOIP,cn → 国内站点，再由 RULE-SET,cn-domain 按域名兜底）—— 命中量最大，排在最前可跳过下面 7 条。
+    //      先按 IP 判（国内域名靠 fake-ip-filter 拿到真实 IP）；IP 判不到的（海外 CDN / 解析到境外 IP /
+    //      未拿到真 IP 的域名）再由 cn 域名清单补判一次，避免国内站点掉到 MATCH 走代理
     //   3. 应用分流（电报 / 人工智能 / 开源社区 / 苹果 / 微软）：这些分类基本不含 cn 域名，
     //      放在国内地区之后不影响它们，只作用于境外流量
     //   4. MATCH → 漏网之鱼（默认代理模式）：境外域名与已移除应用组（谷歌/TV/Spotify/X/TikTok 等）都由它兜底
@@ -746,11 +758,14 @@ function main(params) {
 
         "RULE-SET,ads-domain,广告拦截",
 
-        // 国内直连：只用 IP 判断（GEOSITE,cn 已停用），命中后交给「国内站点」组。
-        // 前提：域名必须拿到真实 IP——由 dns.fake-ip-filter 里的 geosite:cn 保证，
+        // 国内直连：先按 IP 判断，命中后交给「国内站点」组。
+        // 前提：域名必须拿到真实 IP——由 dns.fake-ip-filter 里的 rule-set:cn-domain 保证，
         // 该过滤项不能删，否则国内域名全是 198.18.x.x 假地址，GEOIP 一条都命中不了。
-        // no-resolve：不为此反查域名，未收录站点直接落到 MATCH，避免被海外 nameserver 解析引入延迟
+        // no-resolve：不为此反查域名，避免未收录站点在落到 MATCH 前被海外 nameserver 解析引入延迟
         "GEOIP,cn,国内站点,no-resolve",
+        // 兜底：前述 IP 判断漏掉的国内站点（解析到境外 IP 的国内站点、未拿到真 IP 的域名），
+        // 按域名补判一次。放在应用分流之前，苹果/微软等的国内 CDN 域名仍归「国内站点」
+        "RULE-SET,cn-domain,国内站点",
 
         "RULE-SET,telegram-domain,电报消息",
         "RULE-SET,telegram-ip,电报消息,no-resolve",
