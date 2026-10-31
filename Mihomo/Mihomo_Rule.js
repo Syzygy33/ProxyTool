@@ -1,4 +1,4 @@
-// Clash_rule.js V5.8
+// Clash_rule.js V5.10
 // 需较新的 mihomo 内核；首次启动联网下载规则集与 geo 数据，在日志确认全部下载成功。
 // V5.6：代码整体精简，逻辑与 V5.5 完全一致；
 //       直连相关分流由 RULE-SET 改为内置 GEOSITE/GEOIP：private / cn 四项不再下载规则集，
@@ -12,6 +12,12 @@
 //       规则顺序改为「基础设施 → 广告拦截 → 国内地区 → 应用分流 → MATCH」：国内流量从第 4 条起命中，
 //       跳过后面 7 条规则集；广告拦截仍排在国内之前，国内广告域名才不会被当成普通国内站点放行。
 //       组结构：代理模式 / 直连模式 / 国内站点 / 6 应用组 / 广告拦截 / 漏网之鱼 / 6 地区组（面板最下方）。
+// V5.9：删除「谷歌应用」分流（组、google-domain 规则集、RULE-SET 规则一并移除）。
+//       谷歌流量落 MATCH 由「漏网之鱼」接管（该组默认出口为代理模式，效果一致）；
+//       若需单独控制，可在 apps 数组与规则里按原样加回。组结构：6 应用组 → 5 应用组。
+// V5.10：国内分流去掉 GEOSITE,cn，改为单条 GEOIP,cn →「国内站点」组（原 GEOIP,cn 直连的写法取消）。
+//       纯 IP 判断生效的前提：dns.fake-ip-filter 的 geosite:cn 让国内域名拿到真实 IP（该行已标注为关键项，勿删）。
+//       副作用：解析到境外 IP 的国内站点不再被兜住，会落到 MATCH→漏网之鱼（默认代理模式）。
 
 // ── 可调参数（集中维护） ──
 const DEFAULT_IP_VERSION = "dual"; // dual(并发择优) / ipv6-prefer / ipv4-prefer
@@ -122,13 +128,12 @@ function main(params) {
         { name: "韩国节点", regex: "(?i)(韩国|韓國|南韩|南韓|首尔|首爾|🇰🇷|(^|[^A-Za-z])KR([^A-Za-z]|$)|(^|[^A-Za-z])KOR([^A-Za-z]|$)|Korea)", icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/flag/KR_01.png" }
     ];
 
-    // 应用组名单与图标。已移除的 TV/Spotify/Twitch/X/TikTok/YouTube 不设独立组，其流量落 MATCH 由「漏网之鱼」接管
+    // 应用组名单与图标。已移除的 谷歌/TV/Spotify/Twitch/X/TikTok/YouTube 不设独立组，其流量落 MATCH 由「漏网之鱼」接管
     const apps = [
         { name: "人工智能", icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bot.png" },
         { name: "电报消息", icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png" },
         { name: "苹果服务", icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple_2.png" },
         { name: "开源社区", icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/GitHub.png" },
-        { name: "谷歌应用", icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Cydia.png" },
         { name: "微软服务", icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/OneDrive.png" }
     ];
 
@@ -418,7 +423,8 @@ function main(params) {
                 "+.stun.*.*",
                 "+.stun.*.*.*",
                 "+.stun.*.*.*.*",
-                // 直连域名用内置 geosite 兜底（与规则里的 GEOSITE 共用同一份数据，不再下载规则集）
+                // 关键项：国内域名返回真实 IP，规则里的 GEOIP,cn 才有 IP 可匹配（分流已改为纯 IP 判断）。
+                // 删掉这两行，国内站点会全部拿到 fake-ip 假地址，GEOIP,cn 永不命中，流量直落 MATCH 走代理
                 "geosite:cn",
                 "geosite:private",
                 "rule-set:fakeip-filter",
@@ -436,7 +442,7 @@ function main(params) {
         nameserver: subNS.length > 0
             ? [...new Set(subNS)]
             : ["https://1.1.1.1/dns-query#RULES", "https://8.8.8.8/dns-query#RULES"],
-        // DIRECT 命中且未被 nameserver-policy 覆盖的域名（未收录 cn 的冷门国内站点）用国内 DNS，避免退回代理模式查海外。
+        // 「国内站点」组命中后（GEOIP,cn）且未被 nameserver-policy 覆盖的域名用国内 DNS，避免退回代理模式查海外。
         // 用纯 IP：该字段用 DoH 在部分环境会反复回退 default-nameserver 重复解析、拖高延迟
         "direct-nameserver": [...CN_DNS_PLAIN],
         "direct-nameserver-follow-policy": true,
@@ -471,7 +477,6 @@ function main(params) {
         "telegram-ip": ip("telegram"),
         "github-domain": domain("github"),
         "ai-domain": domain("category-ai-!cn"),
-        "google-domain": domain("google"),
         "apple-domain": domain("apple"),
         "microsoft-domain": domain("microsoft"),
         // 境外域名（geolocation-!cn，194KB，规则集中最大的一块）不再下载：
@@ -651,7 +656,7 @@ function main(params) {
         proxies: ["DIRECT"]
     });
 
-    // 国内站点：配合 GEOSITE,cn 使用；列表首项即默认值，故默认「直连模式」，需要时才手动切「代理模式」
+    // 国内站点：配合 GEOIP,cn 使用；列表首项即默认值，故默认「直连模式」，需要时才手动切「代理模式」
     groups.push({
         name: "国内站点",
         type: "select",
@@ -726,10 +731,12 @@ function main(params) {
     //   0. 基础设施（必须最先）：私网、系统对时、可选 QUIC 阻断
     //   1. 广告拦截（必须先于国内地区：国内广告域名同时收录在 ads 与 cn 两个分类里，
     //      排在前面才能拦住；放到 cn 之后国内广告就会被当作普通国内站点放行）
-    //   2. 国内地区（GEOSITE,cn → 国内站点；GEOIP,cn 直接直连）—— 命中量最大，排在最前可跳过下面 7 条规则集
-    //   3. 应用分流（电报 / 人工智能 / 开源社区 / 谷歌 / 苹果 / 微软）：这些分类基本不含 cn 域名，
+    //   2. 国内地区（GEOIP,cn → 国内站点）—— 命中量最大，排在最前可跳过下面 6 条规则集。
+    //      纯 IP 判断：国内域名靠 fake-ip-filter 拿到真实 IP 后命中；
+    //      解析到境外 IP 的国内站点（海外 CDN / 未收录域名）不再被兜住，会落到 MATCH
+    //   3. 应用分流（电报 / 人工智能 / 开源社区 / 苹果 / 微软）：这些分类基本不含 cn 域名，
     //      放在国内地区之后不影响它们，只作用于境外流量
-    //   4. MATCH → 漏网之鱼（默认代理模式）：境外域名与已移除应用组（TV/Spotify/X/TikTok 等）都由它兜底
+    //   4. MATCH → 漏网之鱼（默认代理模式）：境外域名与已移除应用组（谷歌/TV/Spotify/X/TikTok 等）都由它兜底
     params.rules = [
         "GEOSITE,private,DIRECT",
         "GEOIP,private,DIRECT,no-resolve",
@@ -739,15 +746,16 @@ function main(params) {
 
         "RULE-SET,ads-domain,广告拦截",
 
-        "GEOSITE,cn,国内站点",
-        // no-resolve：Fake-IP 域名直接跳过，避免未收录站点进 MATCH 前被海外 nameserver 解析引入延迟
-        "GEOIP,cn,DIRECT,no-resolve",
+        // 国内直连：只用 IP 判断（GEOSITE,cn 已停用），命中后交给「国内站点」组。
+        // 前提：域名必须拿到真实 IP——由 dns.fake-ip-filter 里的 geosite:cn 保证，
+        // 该过滤项不能删，否则国内域名全是 198.18.x.x 假地址，GEOIP 一条都命中不了。
+        // no-resolve：不为此反查域名，未收录站点直接落到 MATCH，避免被海外 nameserver 解析引入延迟
+        "GEOIP,cn,国内站点,no-resolve",
 
         "RULE-SET,telegram-domain,电报消息",
         "RULE-SET,telegram-ip,电报消息,no-resolve",
         "RULE-SET,ai-domain,人工智能",
         "RULE-SET,github-domain,开源社区",
-        "RULE-SET,google-domain,谷歌应用",
         "RULE-SET,apple-domain,苹果服务",
         "RULE-SET,microsoft-domain,微软服务",
 
