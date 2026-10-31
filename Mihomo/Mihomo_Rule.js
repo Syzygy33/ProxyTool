@@ -1,4 +1,4 @@
-// Clash_rule.js V5.11
+// Clash_rule.js V5.12
 // 需较新的 mihomo 内核；首次启动联网下载规则集与 geo 数据，在日志确认全部下载成功。
 // V5.6：代码整体精简，逻辑与 V5.5 完全一致；
 //       直连相关分流由 RULE-SET 改为内置 GEOSITE/GEOIP：private / cn 四项不再下载规则集，
@@ -23,6 +23,10 @@
 //       IP 判优先，判不到的国内站点按域名捞回，不再掉进 MATCH 走代理。
 //       DNS 侧的 fake-ip-filter 与 nameserver-policy 同步由 geosite:cn 改为 rule-set:cn-domain，
 //       与分流共用同一份数据（口径一致，且不再依赖内置 geosite:cn 条目）。
+// V5.12：修 Google Play 下载/更新「等待中」——加 DOMAIN-SUFFIX,googleapis.cn → 代理模式，且必须排在
+//       国内分流之前。services.googleapis.cn 解析到境内 IP（120.253.x.x，实测），被判国内直连后
+//       Play 拿到的是 Google 国内 CDN 地址，再用代理去连国内 CDN 会被拒（国内 CDN 封境外出口），
+//       于是永远等待中；走代理则 Play 返回国外 CDN 地址，下载链路与代理一致。
 
 // ── 可调参数（集中维护） ──
 const DEFAULT_IP_VERSION = "dual"; // dual(并发择优) / ipv6-prefer / ipv4-prefer
@@ -743,12 +747,13 @@ function main(params) {
     //   0. 基础设施（必须最先）：私网、系统对时、可选 QUIC 阻断
     //   1. 广告拦截（必须先于国内地区：国内广告域名同时收录在 ads 与 cn 两个分类里，
     //      排在前面才能拦住；放到 cn 之后国内广告就会被当作普通国内站点放行）
-    //   2. 国内地区（GEOIP,cn → 国内站点，再由 RULE-SET,cn-domain 按域名兜底）—— 命中量最大，排在最前可跳过下面 7 条。
+    //   2. Google Play 例外（必须早于国内地区）：googleapis.cn 走代理，否则 Play 下载/更新永远「等待中」
+    //   3. 国内地区（GEOIP,cn → 国内站点，再由 RULE-SET,cn-domain 按域名兜底）—— 命中量最大，排在最前可跳过下面 7 条。
     //      先按 IP 判（国内域名靠 fake-ip-filter 拿到真实 IP）；IP 判不到的（海外 CDN / 解析到境外 IP /
     //      未拿到真 IP 的域名）再由 cn 域名清单补判一次，避免国内站点掉到 MATCH 走代理
-    //   3. 应用分流（电报 / 人工智能 / 开源社区 / 苹果 / 微软）：这些分类基本不含 cn 域名，
+    //   4. 应用分流（电报 / 人工智能 / 开源社区 / 苹果 / 微软）：这些分类基本不含 cn 域名，
     //      放在国内地区之后不影响它们，只作用于境外流量
-    //   4. MATCH → 漏网之鱼（默认代理模式）：境外域名与已移除应用组（谷歌/TV/Spotify/X/TikTok 等）都由它兜底
+    //   5. MATCH → 漏网之鱼（默认代理模式）：境外域名与已移除应用组（谷歌/TV/Spotify/X/TikTok 等）都由它兜底
     params.rules = [
         "GEOSITE,private,DIRECT",
         "GEOIP,private,DIRECT,no-resolve",
@@ -757,6 +762,13 @@ function main(params) {
         ...(BLOCK_QUIC ? ["AND,((DST-PORT,443),(NETWORK,udp)),REJECT"] : []),
 
         "RULE-SET,ads-domain,广告拦截",
+
+        // Google Play 下载/更新一直「等待中」的修复（必须早于下面的国内分流）：
+        // services.googleapis.cn 实测解析到境内 IP（120.253.x.x），GEOIP,cn 与 cn-domain 都会命中。
+        // 一旦被判成国内直连，Play 会拿到 Google「国内 CDN」的下载地址，随后用代理去连国内 CDN，
+        // 而国内 CDN 封境外出口被拒 → 永远等待中。让它走代理，Play 才会返回国外 CDN 地址，下载链路与代理一致。
+        // 覆盖整个 googleapis.cn 后缀：该后缀下都是 Google API，本就该走代理。
+        "DOMAIN-SUFFIX,googleapis.cn,代理模式",
 
         // 国内直连：先按 IP 判断，命中后交给「国内站点」组。
         // 前提：域名必须拿到真实 IP——由 dns.fake-ip-filter 里的 rule-set:cn-domain 保证，
