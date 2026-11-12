@@ -27,6 +27,22 @@
 //       国内分流之前。services.googleapis.cn 解析到境内 IP（120.253.x.x，实测），被判国内直连后
 //       Play 拿到的是 Google 国内 CDN 地址，再用代理去连国内 CDN 会被拒（国内 CDN 封境外出口），
 //       于是永远等待中；走代理则 Play 返回国外 CDN 地址，下载链路与代理一致。
+// V5.13：确认「微软服务」策略组链路完整（组 + microsoft-domain 规则集 + RULE-SET 规则，5 应用组之一）：
+//       规则集 geosite/microsoft（约 8KB），组切换目标为 代理模式 / 直连模式。
+//       该规则刻意排在 RULE-SET,cn-domain 之后：微软的国内 CDN 域名仍归「国内站点」直连，
+//       只有境外微软域名（登录、OneDrive、更新、Xbox 等）才进本组；无独立 IP 段规则，域名判断已足够。
+// V5.14：「微软服务」规则前移到国内分流之前（GEOIP,cn 与 RULE-SET,cn-domain 之前），紧随 Google Play 例外。
+//       原顺序下微软域名多解析到境内 IP，会被 GEOIP,cn 先判成「国内站点」，本组几乎接不到流量；
+//       前置后整类微软流量归本组，默认出口「代理模式」。需直连则在面板把「微软服务」切「直连模式」。
+// V5.15：全部应用策略组（微软 / 电报 / 人工智能 / 开源社区 / 苹果）统一提到国内分流之前，
+//       顺序改为「基础设施 → 广告拦截 → Google Play 例外 → 5 应用组 → 国内地区 → MATCH」。
+//       五个组的域名清单里都有解析到境内 IP 的条目（微软/苹果国内 CDN 尤多），原顺序下这些流量
+//       先被 GEOIP,cn 判给「国内站点」，应用组形同虚设；前置后整类流量归各自组决定。
+//       代价：应用组的国内 CDN 域名不再借道「国内站点」，默认出口按各组成员走（多数为「代理模式」）。
+//       影响面最大的是「苹果服务」——App Store / iCloud 国内加速域名会走代理模式，需直连就切「直连模式」。
+// V5.16：广告拦截从第 1 条挪到应用组之后、国内地区之前。仍早于 GEOIP,cn（国内广告照样拦住），
+//       只是不再抢在应用组前面——应用自身域名（微软/苹果的 CDN、统计域名等）优先归各自组，
+//       不会被 ads 清单先 REJECT。顺序：基础设施 → Google Play 例外 → 5 应用组 → 广告拦截 → 国内地区 → MATCH。
 
 // ── 可调参数（集中维护） ──
 const DEFAULT_IP_VERSION = "dual"; // dual(并发择优) / ipv6-prefer / ipv4-prefer
@@ -745,14 +761,15 @@ function main(params) {
 
     // 规则自上而下先命中先决定，顺序即优先级。按命中频率从高到低排，主流流量越早命中越好：
     //   0. 基础设施（必须最先）：私网、系统对时、可选 QUIC 阻断
-    //   1. 广告拦截（必须先于国内地区：国内广告域名同时收录在 ads 与 cn 两个分类里，
-    //      排在前面才能拦住；放到 cn 之后国内广告就会被当作普通国内站点放行）
-    //   2. Google Play 例外（必须早于国内地区）：googleapis.cn 走代理，否则 Play 下载/更新永远「等待中」
-    //   3. 国内地区（GEOIP,cn → 国内站点，再由 RULE-SET,cn-domain 按域名兜底）—— 命中量最大，排在最前可跳过下面 7 条。
+    //   1. Google Play 例外（必须早于国内地区）：googleapis.cn 走代理，否则 Play 下载/更新永远「等待中」
+    //   2. 应用分流（全部应用组集中在此，必须早于国内地区）：各应用分类里都有解析到境内 IP 的域名
+    //      （微软/苹果国内 CDN 最多），排在 GEOIP,cn 之后就会被「国内站点」先吃掉，应用组等于空转。
+    //      前置后整类流量归各自组；默认出口按组内首项（多数为「代理模式」），要直连就在面板切「直连模式」
+    //   3. 广告拦截（仍须早于国内地区：国内广告域名同时收录在 ads 与 cn 两个分类里，
+    //      排到 cn 之后国内广告就会被当作普通国内站点放行；放在应用组之后，让应用自身域名先归各自组）
+    //   4. 国内地区（GEOIP,cn → 国内站点，再由 RULE-SET,cn-domain 按域名兜底）—— 命中量最大。
     //      先按 IP 判（国内域名靠 fake-ip-filter 拿到真实 IP）；IP 判不到的（海外 CDN / 解析到境外 IP /
     //      未拿到真 IP 的域名）再由 cn 域名清单补判一次，避免国内站点掉到 MATCH 走代理
-    //   4. 应用分流（电报 / 人工智能 / 开源社区 / 苹果 / 微软）：这些分类基本不含 cn 域名，
-    //      放在国内地区之后不影响它们，只作用于境外流量
     //   5. MATCH → 漏网之鱼（默认代理模式）：境外域名与已移除应用组（谷歌/TV/Spotify/X/TikTok 等）都由它兜底
     params.rules = [
         "GEOSITE,private,DIRECT",
@@ -761,8 +778,6 @@ function main(params) {
         "AND,((DST-PORT,123),(NETWORK,udp)),DIRECT",
         ...(BLOCK_QUIC ? ["AND,((DST-PORT,443),(NETWORK,udp)),REJECT"] : []),
 
-        "RULE-SET,ads-domain,广告拦截",
-
         // Google Play 下载/更新一直「等待中」的修复（必须早于下面的国内分流）：
         // services.googleapis.cn 实测解析到境内 IP（120.253.x.x），GEOIP,cn 与 cn-domain 都会命中。
         // 一旦被判成国内直连，Play 会拿到 Google「国内 CDN」的下载地址，随后用代理去连国内 CDN，
@@ -770,21 +785,31 @@ function main(params) {
         // 覆盖整个 googleapis.cn 后缀：该后缀下都是 Google API，本就该走代理。
         "DOMAIN-SUFFIX,googleapis.cn,代理模式",
 
+        // 微软服务（应用组，同样早于国内分流）：微软域名大量解析到境内 IP（微软有国内 CDN），
+        // 排在 GEOIP,cn 之后会被「国内站点」先吃掉，本组等于只剩零星几个未解析到国内 IP 的域名。
+        "RULE-SET,microsoft-domain,微软服务",
+
+        // 其余应用组：与微软同理，全部前置到国内分流之前，保证各应用组能整类接管自己的流量
+        "RULE-SET,telegram-domain,电报消息",
+        "RULE-SET,telegram-ip,电报消息,no-resolve",
+        "RULE-SET,ai-domain,人工智能",
+        "RULE-SET,github-domain,开源社区",
+        "RULE-SET,apple-domain,苹果服务",
+
+        // 广告拦截：位于应用组之后、国内之前。
+        // 必须仍早于国内地区——国内广告域名同时收录在 ads 与 cn 两个分类里，排到 cn 之后就会被当作
+        // 普通国内站点放行；放在应用组之后则保证应用自身域名（如微软/苹果的 CDN 或统计域名）优先归各自组，
+        // 不会被 ads 清单抢先 REJECT。
+        "RULE-SET,ads-domain,广告拦截",
+
         // 国内直连：先按 IP 判断，命中后交给「国内站点」组。
         // 前提：域名必须拿到真实 IP——由 dns.fake-ip-filter 里的 rule-set:cn-domain 保证，
         // 该过滤项不能删，否则国内域名全是 198.18.x.x 假地址，GEOIP 一条都命中不了。
         // no-resolve：不为此反查域名，避免未收录站点在落到 MATCH 前被海外 nameserver 解析引入延迟
         "GEOIP,cn,国内站点,no-resolve",
         // 兜底：前述 IP 判断漏掉的国内站点（解析到境外 IP 的国内站点、未拿到真 IP 的域名），
-        // 按域名补判一次。放在应用分流之前，苹果/微软等的国内 CDN 域名仍归「国内站点」
+        // 按域名补判一次。必须放在应用分流之后，否则应用组的国内 CDN 域名会被本组抢走
         "RULE-SET,cn-domain,国内站点",
-
-        "RULE-SET,telegram-domain,电报消息",
-        "RULE-SET,telegram-ip,电报消息,no-resolve",
-        "RULE-SET,ai-domain,人工智能",
-        "RULE-SET,github-domain,开源社区",
-        "RULE-SET,apple-domain,苹果服务",
-        "RULE-SET,microsoft-domain,微软服务",
 
         "MATCH,漏网之鱼"
     ];
