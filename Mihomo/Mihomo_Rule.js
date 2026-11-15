@@ -1,4 +1,4 @@
-// Clash_rule.js V5.12
+// Clash_rule.js V5.17
 // 需较新的 mihomo 内核；首次启动联网下载规则集与 geo 数据，在日志确认全部下载成功。
 // V5.6：代码整体精简，逻辑与 V5.5 完全一致；
 //       直连相关分流由 RULE-SET 改为内置 GEOSITE/GEOIP：private / cn 四项不再下载规则集，
