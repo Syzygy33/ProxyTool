@@ -1,4 +1,4 @@
-// Clash_rule.js V5.17
+// Clash_rule.js V5.18
 // 需较新的 mihomo 内核；首次启动联网下载规则集与 geo 数据，在日志确认全部下载成功。
 // V5.6：代码整体精简，逻辑与 V5.5 完全一致；
 //       直连相关分流由 RULE-SET 改为内置 GEOSITE/GEOIP：private / cn 四项不再下载规则集，
@@ -46,6 +46,10 @@
 // V5.17：新增 cysuo.com（百度词元所）域名例外 →「国内站点」组。刻意排在应用分流之前而非 GEOIP,cn 那一段：
 //       该域名属「AI 模型聚合」类，若已被 ai-domain（category-ai-!cn）或 ads-domain 收录，
 //       放到国内分流段就会被这几条规则集抢先判给「人工智能」组（默认代理模式），直连意图落空。
+// V5.18：屏蔽内核不支持的键，消除 FlClash / 旧内核启动时的「配置警告」弹窗：
+//       geosite-matcher（V5.7 引入的省内存匹配器）在旧内核里不被识别，出警告且被忽略；
+//       bind-address 同理（该键来自订阅而非本脚本）。两者均不影响分流结果，直接不输出该键，
+//       由内核回落到默认值（geosite 匹配器默认 mph，内存略高但功能一致）。
 
 // ── 可调参数（集中维护） ──
 const DEFAULT_IP_VERSION = "dual"; // dual(并发择优) / ipv6-prefer / ipv4-prefer
@@ -62,7 +66,9 @@ const BLOCK_QUIC = false;          // 拒绝 UDP 443 迫使回退 TCP；仅节�
 // true：用 .dat（整体载入内存，约 16MB），查询更快但内存高
 const GEO_DATA_MODE = false;
 const GEO_LOADER = "memconservative"; // .dat 加载器（geosite.dat 必用 .dat）：memconservative 低内存 / standard 高内存快
-const GEO_SITE_MATCHER = "succinct";  // 域名匹配器：succinct 压缩结构省内存 / mph 哈希查询略快但内存高
+// V5.18：旧内核不识别 geosite-matcher，输出该键会弹「key is not supported by this core」警告，故停用。
+// 旧内核（如 FlClash 自带版本）回落默认 mph 匹配器，功能一致、仅内存略高；确认内核已跟上后可解注释。
+// const GEO_SITE_MATCHER = "succinct";  // 域名匹配器：succinct 压缩结构省内存 / mph 哈希查询略快但内存高
 // geo 数据下载地址：默认 GitHub 域名直连常被墙，改镜像可让首次启动拿到数据（否则 GEOIP/GEOSITE 全部不生效）。
 // mmdb 供 geodata-mode:false 用（7MB），geoip 供 geodata-mode:true 用（16MB），geosite 恒为 .dat（4MB）
 const GEOX_URL = {
@@ -108,10 +114,11 @@ function main(params) {
         "find-process-mode": "off", // 不匹配进程名，省掉每条连接的进程查找（进程表是全内核共享的大头内存）
         "keep-alive-idle": KEEP_ALIVE_IDLE,
         "keep-alive-interval": KEEP_ALIVE_INTERVAL,
-        // geo 数据：mode=false 走 mmdb 省内存，loader/matcher 取省内存档
+        // geo 数据：mode=false 走 mmdb 省内存，loader 取省内存档
         "geodata-mode": GEO_DATA_MODE,
         "geodata-loader": GEO_LOADER,
-        "geosite-matcher": GEO_SITE_MATCHER,
+        // V5.18 停用（旧内核不支持，会弹「key is not supported by this core and is ignored: geosite-matcher」）
+        // "geosite-matcher": GEO_SITE_MATCHER,
         // 订阅自带 geox-url 的键优先（同名键覆盖），其余补镜像
         "geox-url": Object.assign({}, GEOX_URL, isObj(params["geox-url"]) ? params["geox-url"] : {})
     });
@@ -119,6 +126,9 @@ function main(params) {
     const ipv6Enabled = params.ipv6 === true;
     params.ipv6 = ipv6Enabled;
     delete params["global-client-fingerprint"]; // 内核已移除该字段并会在启动时报错
+    // V5.18：bind-address 来自订阅，旧内核不识别，会弹「key is not supported by this core and is ignored」。
+    // 该键只影响出站源地址绑定（默认即 *），删掉不改变分流与连接行为，仅消除启动警告
+    delete params["bind-address"];
 
     params.sniffer = {
         enable: true,
